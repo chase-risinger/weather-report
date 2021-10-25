@@ -6,6 +6,11 @@ var now = moment().format('MMMM Do YYYY');
 var cityDisplayEl = document.querySelector("#city-display")
 var cityButtonEl = document.querySelector("#city-buttons")
 var dayList = document.querySelector('#day-list')
+var day1El = document.querySelector("#day1")
+var day2El = document.querySelector("#day2")
+var day3El = document.querySelector("#day3")
+var day4El = document.querySelector("#day4")
+var day5El = document.querySelector("#day5")
 
 
 var buttonClickHandler = function (event) {
@@ -51,11 +56,22 @@ var getCityWeather = function (address, lat, lon) {
             // request was successful
             if (response.ok) {
                 response.json().then(function (data) {
+                    console.log(data)
                     var curTemp = ("Temp: " + data['current']['temp'] + "°F");
                     var windSpeed = ("Wind: " + data['current']['wind_speed'] + "MPH");
                     var humidity = ("Humidity: " + data['current']['humidity'] + "%");
                     var uvIndex = ("UV Index: " + data['current']['uvi']);
                     assembleDataCurr(curTemp, windSpeed, humidity, uvIndex)
+                    for (i = 1; i < 6; i++) {
+                        var date = moment().add(i, "day").format("MMM D");
+                        var fTemp = ("Temp: " + data['daily'][i]['temp']['day'] + "°F")
+                        var fWind = ("Wind: " + data['daily'][i]['wind_speed'] + "MPH");
+                        var fHumidity = ("Humidity: " + data['daily'][i]['humidity'] + "%");
+                        assembleDataDaily(date, fTemp, fWind, fHumidity, i)
+
+
+                        console.log(date)
+                    }
                 })
 
             } else {
@@ -75,12 +91,10 @@ var assembleDataCurr = function (curTemp, windSpeed, humidity, uvIndex) {
     currentWeatherList.push(windSpeed);
     currentWeatherList.push(humidity);
     currentWeatherList.push(uvIndex);
-    console.log(currentWeatherList);
     dayList.innerHTML = "";
 
 
     for (var i = 0; i < currentWeatherList.length; i++) {
-        console.log(currentWeatherList[i])
         var listItemEl = document.createElement("li");
         listItemEl.textContent = currentWeatherList[i];
         dayList.appendChild(listItemEl);
@@ -88,8 +102,28 @@ var assembleDataCurr = function (curTemp, windSpeed, humidity, uvIndex) {
     }
 }
 
+var assembleDataDaily = function (date, fTemp, fWind, fHumidity, counter) {
+    var dailyWeatherList = [];
+    dailyWeatherList.push(date);
+    dailyWeatherList.push(fTemp);
+    dailyWeatherList.push(fWind);
+    dailyWeatherList.push(fHumidity);
+    var elements = document.getElementsByClassName('forecast');
+    for (var i = 1; i <= elements.length; i++) {
+        if (i == counter) {
+            elements[i - 1].innerHTML = "<h3>" + date + "</h3><p>" + fTemp + "</p><p>" + fWind + "</p><p>" + fHumidity + "</p>"
+
+
+
+        }
+    }
+}
+
+
+
+
 
 
 cityButtonEl.addEventListener("click", buttonClickHandler)
-// getCityWeather(address)
+
 
