@@ -1,0 +1,13 @@
+.hero {
+    color: white;
+    background-color: blue;
+    text-align: center;
+}
+
+#search-city{
+    border: solid black;
+}
+
+#weather-info{
+    border: solid black;
+}
