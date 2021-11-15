@@ -30,3 +30,21 @@
     width: 100%;
 
 }
+
+.green {
+    background-color: green;
+}
+.red {
+    background-color: red;
+}
+.yellow {
+    background-color: yellow;
+}
+
+.light-blue {
+    background-color: lightblue
+}
+
+.dark-blue {
+    background-color: darkblue
+}
